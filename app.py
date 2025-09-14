@@ -10,7 +10,7 @@ import requests
 import datetime
 import pytz
 import plotly.graph_objects as go
-from tensorflow.keras.models import load_model
+from keras.models import load_model
 from keras.losses import MeanSquaredError
 
 # ---------------------------
