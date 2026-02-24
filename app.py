@@ -1,6 +1,5 @@
-# ====================================
+
 # STREAMLIT SMART GRID FORECASTING APP
-# ====================================
 
 import streamlit as st
 import numpy as np
@@ -13,9 +12,8 @@ import plotly.graph_objects as go
 from tensorflow.keras.models import load_model
 from keras.losses import MeanSquaredError
 
-# ---------------------------
 # Global Config
-# ---------------------------
+
 MODEL_PATH = "models/hybrid_cnn_gru.keras"
 SCALER_PATH = "models/scalers.pkl"
 DATA_PATH = "hourly data(2000-2023).csv"
@@ -28,9 +26,9 @@ CITY_TIMEZONES = {
     "Bengaluru": "Asia/Kolkata"
 }
 
-# ---------------------------
+
 # Load Model & Artifacts
-# ---------------------------
+
 @st.cache_resource
 def load_artifacts():
     model = load_model(MODEL_PATH, custom_objects={"mse": MeanSquaredError()})
@@ -45,9 +43,9 @@ feature_cols = artifacts["feature_cols"]
 SEQ_LEN = artifacts["seq_len"]
 HORIZON = artifacts["horizon"]
 
-# ---------------------------
+
 # Load Dataset
-# ---------------------------
+
 @st.cache_data
 def load_data():
     col_names = [
@@ -61,9 +59,9 @@ def load_data():
 
 df = load_data()
 
-# ---------------------------
+
 # Weather API
-# ---------------------------
+
 API_KEY = "bd3506b4684ca28a123ba23f98615849"
 def get_weather(city="Delhi"):
     try:
@@ -77,9 +75,9 @@ def get_weather(city="Delhi"):
     except Exception as e:
         return {"temperature": "N/A", "humidity": "N/A", "condition": f"Error: {e}"}
 
-# ---------------------------
+
 # Forecast Function
-# ---------------------------
+
 def forecast_load(city, horizon, start_hour, day_of_week, is_weekend, is_holiday):
     history = df[feature_cols].tail(SEQ_LEN).values
     weather = get_weather(city)
@@ -116,11 +114,11 @@ def forecast_load(city, horizon, start_hour, day_of_week, is_weekend, is_holiday
 
     return df_pred, df_hist, weather
 
-# ---------------------------
+
 # Streamlit UI
-# ---------------------------
+
 st.set_page_config(page_title="Smart Grid Forecasting", layout="wide")
-st.title("⚡ Smart Grid Load Forecasting Dashboard")
+st.title(" Smart Grid Load Forecasting Dashboard")
 st.markdown("### Electricity Demand Prediction using Deep Learning")
 
 # --- Sidebar Widgets ---
@@ -135,7 +133,7 @@ is_weekend = st.sidebar.checkbox("Weekend?", value=False)
 is_holiday = st.sidebar.checkbox("Holiday?", value=False)
 
 # --- Weather (always visible) ---
-st.subheader(f"🌤️ Current Weather in {city}")
+st.subheader(f" Current Weather in {city}")
 weather = get_weather(city)
 local_time = datetime.datetime.now(pytz.timezone(CITY_TIMEZONES[city]))
 st.write(f"**Local Time:** {local_time.strftime('%Y-%m-%d %H:%M')}")
