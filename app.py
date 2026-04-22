@@ -122,13 +122,13 @@ st.title(" Smart Grid Load Forecasting Dashboard")
 st.markdown("### Electricity Demand Prediction using Deep Learning")
 
 # --- Sidebar Widgets ---
-st.sidebar.header("⚙️ Forecast Settings")
+st.sidebar.header("Forecast Settings")
 
-city = st.sidebar.selectbox("🌍 Select City", list(CITY_TIMEZONES.keys()))
-horizon = st.sidebar.slider("⏳ Forecast Horizon (hours)", 1, 24, 6)
+city = st.sidebar.selectbox("Select City", list(CITY_TIMEZONES.keys()))
+horizon = st.sidebar.slider("Forecast Horizon (hours)", 1, 24, 6)
 days = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"]
-day_of_week = st.sidebar.selectbox("📅 Day of Week", days)
-hour_of_day = st.sidebar.selectbox("🕒 Start Hour of Day", list(range(24)))
+day_of_week = st.sidebar.selectbox("Day of Week", days)
+hour_of_day = st.sidebar.selectbox("Start Hour of Day", list(range(24)))
 is_weekend = st.sidebar.checkbox("Weekend?", value=False)
 is_holiday = st.sidebar.checkbox("Holiday?", value=False)
 
@@ -142,10 +142,10 @@ st.write(f"**Humidity:** {weather['humidity']}")
 st.write(f"**Condition:** {weather['condition']}")
 
 # --- Run Forecast ---
-if st.sidebar.button("🔮 Run Forecast"):
+if st.sidebar.button("Run Forecast"):
     df_pred, df_hist, weather = forecast_load(city, horizon, hour_of_day, days.index(day_of_week), is_weekend, is_holiday)
 
-    st.subheader(f"📊 Day-Ahead Forecast for {city}")
+    st.subheader(f" Day-Ahead Forecast for {city}")
 
     # Show total & average demand
     total_demand = df_pred["Predicted Load (MW)"].sum()
